@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.fbcv.ubustus.designacionesfbcv.Registro">
+    tools:context="com.fbcv.ubustus.designacionesfbcv.Registro"
+    android:weightSum="1">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,10 +14,87 @@
         android:layout_gravity="center"
         android:textSize="20sp"/>
     <EditText
-        android:id="@+id/tv_regNombre"
+        android:id="@+id/regLicencia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre"/>
+        android:inputType="number"
+        android:hint="Licencia"/>
+    <EditText
+        android:id="@+id/regDni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dni"/>
+    <EditText
+        android:id="@+id/regPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textVisiblePassword"
+        android:hint="Password"/>
+    <EditText
+        android:id="@+id/regPasswordConfir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textVisiblePassword"
+        android:hint="Repite Password"/>
+    <EditText
+        android:id="@+id/regEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Email"/>
+    <EditText
+        android:id="@+id/regOrigen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Origen"/>
+    <EditText
+        android:id="@+id/regPassWeb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Password Web FBCV"
+        />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Elige tu Categoría"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/regSpinnerCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:prompt="@string/categoria_prompt"
+         />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:hint="Elige tu Rol"
+        />
+    <Spinner
+        android:id="@+id/regSpinnerRol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/rol_prompt"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+
+        />
+
+
     <Button
         android:id="@+id/btn_registroSubmit"
         android:layout_width="wrap_content"

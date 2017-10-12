@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Registro" />
-        <activity android:name=".Usuario"></activity>
+        <activity android:name=".Usuario" />
+        <activity android:name=".Principal" />
+        <activity android:name=".Designaciones" />
+        <activity android:name=".Estado" />
+        <activity android:name=".Configuracion"></activity>
     </application>
 
 </manifest>

@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">DesignacionesFBCV</string>
+    <string name="categoria_prompt">Elige tu Categoría</string>
+    <string name="rol_prompt">Elige tu Rol</string>
+    <string name="error_password">La contraseña es errónea</string>
+    <string name="error_repetir_password">La contraseña no coincide</string>
+    <string-array name="categoria_arrays">
+        <item>Zonal</item>
+        <item>Autonómica</item>
+        <item>1ra División</item>
+        <item>Liga EBA</item>
+        <item>Liga LEB Plata</item>
+        <item>Liga LEB Oro</item>
+        <item>Liga ACB</item>
+    </string-array>
+    <string-array name="rol_arrays">
+        <item>ARB</item>
+        <item>OM</item>
+    </string-array>
 </resources>
