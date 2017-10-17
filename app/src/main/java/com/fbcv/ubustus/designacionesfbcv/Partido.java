@@ -15,8 +15,9 @@ public class Partido {
     private String localidad;
     private float cuota;
     private String estado;
+    private boolean aceptado;
 
-    public Partido(String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String estado) {
+    public Partido(String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String estado, boolean aceptado) {
         this.codigo = codigo;
         this.encuentro = encuentro;
         this.fecha = fecha;
@@ -24,6 +25,7 @@ public class Partido {
         this.localidad = localidad;
         this.cuota = cuota;
         this.estado = estado;
+        this.aceptado = aceptado;
     }
 
     public String getCodigo() {
@@ -80,5 +82,13 @@ public class Partido {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public boolean isAceptado() {
+        return aceptado;
+    }
+
+    public void setAceptado(boolean aceptado) {
+        this.aceptado = aceptado;
     }
 }

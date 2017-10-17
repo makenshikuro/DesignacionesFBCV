@@ -5,20 +5,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewAdapter extends ArrayAdapter<Partido> {
 
     // Declare Variables
-    Context context;
+
     ArrayList<Partido> alp;
     LayoutInflater inflater;
 
-    public ListViewAdapter(Context context, ArrayList<Partido> al) {
-        this.context = context;
+
+    public ListViewAdapter(Context context,int textViewResourceId, ArrayList<Partido> al) {
+        super(context,textViewResourceId, al);
         this.alp = al;
 
     }
@@ -28,35 +29,34 @@ public class ListViewAdapter extends BaseAdapter {
         return alp.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Declare Variables
-        TextView txtTitle;
-        TextView imgImg;
+        TextView txtFecha;
+        TextView txtHora;
+        TextView txtEncuentro;
+        TextView txtCategoria;
+        TextView txtEstado;
 
-        //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = inflater.inflate(R.layout.list_row, parent, false);
+        View v = convertView;
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = inflater.inflate(R.layout.list_view_items, null);
+        txtFecha = (TextView) v.findViewById(R.id.txtFecha);
+        txtHora = (TextView) v.findViewById(R.id.txtHora);
+        txtEncuentro = (TextView) v.findViewById(R.id.txtEncuentro);
+        txtCategoria = (TextView) v.findViewById(R.id.txtCategoria);
+        txtEstado = (TextView) v.findViewById(R.id.txtEstado);
 
-        // Locate the TextViews in listview_item.xml
-        txtTitle = (TextView) itemView.findViewById(R.id.list_row_title);
-        imgImg = (TextView) itemView.findViewById(R.id.list_row_image);
 
-        // Capture position and set to the TextViews
-        txtTitle.setText(alp.get(position).getCodigo());
-        imgImg.setText(alp.get(position).getFecha().toString());
+        txtFecha.setText(alp.get(position).getFecha().toString());
+        txtHora.setText(alp.get(position).getFecha().toString());
+        txtEncuentro.setText(alp.get(position).getEncuentro());
+        txtCategoria.setText(alp.get(position).getCategoria());
+        txtEstado.setText(alp.get(position).getEstado());
 
-        return itemView;
+        return v;
+
     }
 }

@@ -31,8 +31,9 @@ public class BuscaDesignacion extends AppCompatActivity {
     private TextView result, lastUpdate, num_partidos;
     int npartidos;
     String lastupdate;
-    private ListView lv1;
+    ListView lv1;
     ArrayList<Partido> al = new ArrayList<Partido>();
+    ListViewAdapter listAdapter;
 
     ArrayList<String> listItems=new ArrayList<String>();
 
@@ -40,14 +41,15 @@ public class BuscaDesignacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busca_designacion);
-
-
         result = (TextView) findViewById(R.id.result);
 
-        adaptador=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
+        /*adaptador=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
         lv1=(ListView)findViewById(R.id.lista_semanal);
-        lv1.setAdapter(adaptador);
+        lv1.setAdapter(adaptador);*/
 
+        lv1 =(ListView) findViewById(R.id.lista_semanal);
+        listAdapter = new ListViewAdapter(this, R.layout.list_view_items, al);
+        lv1.setAdapter(listAdapter);
 
 
 
@@ -184,13 +186,12 @@ public class BuscaDesignacion extends AppCompatActivity {
                         //cuota = AccesoDatos.getCuotaCategoria(ds.getConnection(), cat, user.getRol());
 				        /*System.out.println("cuotaARB: "+ cuota);*/
                     } catch (Exception e) {e.printStackTrace();}
-                    Partido p = new Partido(codigo, encuentro, date, cat, localidad, cuota, estado);
+                    //puesto por defecto (hay que recoger este valor con jsoup)
+                    boolean aceptado = false;
+                    Partido p = new Partido(codigo, encuentro, date, cat, localidad, cuota, estado, aceptado);
                     al.add(p);
 
                 }
-
-
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -202,10 +203,8 @@ public class BuscaDesignacion extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            for(Partido p : al){
-                listItems.add(p.getCodigo());
-            }
-            adaptador.notifyDataSetChanged();
+
+            listAdapter.notifyDataSetChanged();
 
             result.setText("Hecho");
         }
