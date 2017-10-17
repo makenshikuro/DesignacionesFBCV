@@ -20,13 +20,13 @@ public class Principal extends AppCompatActivity {
         estado = (Button) findViewById(R.id.btn_estado);
         configuracion = (Button) findViewById(R.id.btn_configuracion);
 
-        /*buscaDesignacion.setOnClickListener(new View.OnClickListener(){
+        buscaDesignacion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 Intent intent = new Intent (Principal.this, BuscaDesignacion.class);
                 Principal.this.startActivity(intent);
             }
-        });*/
+        });
 
         designaciones.setOnClickListener(new View.OnClickListener(){
             @Override

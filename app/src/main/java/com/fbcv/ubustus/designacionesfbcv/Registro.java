@@ -1,7 +1,6 @@
 package com.fbcv.ubustus.designacionesfbcv;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,7 @@ import android.widget.Spinner;
 
 public class Registro extends Activity implements View.OnClickListener{
 
-    EditText licencia, dni, correo, password, passwordConfirm, passWeb, origen;
+    EditText licencia, dni, correo, passWeb, origen;
     Spinner categoria, rol;
     Button btn_registrar;
 
@@ -30,8 +29,6 @@ public class Registro extends Activity implements View.OnClickListener{
         origen = (EditText) findViewById(R.id.regOrigen);
         dni = (EditText) findViewById(R.id.regDni);
         correo = (EditText) findViewById(R.id.regEmail);
-        password = (EditText) findViewById(R.id.regPassword);
-        passwordConfirm = (EditText) findViewById(R.id.regPasswordConfir);
         passWeb = (EditText) findViewById(R.id.regPassWeb);
 
         categoria = (Spinner) findViewById(R.id.regSpinnerCategoria);
@@ -69,14 +66,13 @@ public class Registro extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if (password.getText().toString().equals(passwordConfirm.getText().toString())){
+
             SharedPreferences prefs = getSharedPreferences("FBCVPref", Context.MODE_PRIVATE);
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("licencia", licencia.getText().toString());
             editor.putString("dni", dni.getText().toString());
             editor.putString("email", correo.getText().toString());
-            editor.putString("password", password.getText().toString());
             editor.putString("origen", origen.getText().toString());
             editor.putString("passWeb", passWeb.getText().toString());
             editor.putString("categoria", categoria.getSelectedItem().toString());
@@ -86,22 +82,8 @@ public class Registro extends Activity implements View.OnClickListener{
 
             Intent intentMain = new Intent (Registro.this, MainActivity.class);
             Registro.this.startActivity(intentMain);
-        }
-        else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 
-            builder.setMessage("Error")
-                    .setTitle(R.string.error_repetir_password);
-
-
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
-
-
-
-        }
         }
 
 

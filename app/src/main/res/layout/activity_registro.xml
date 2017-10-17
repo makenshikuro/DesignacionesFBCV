@@ -24,18 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Dni"/>
-    <EditText
-        android:id="@+id/regPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textVisiblePassword"
-        android:hint="Password"/>
-    <EditText
-        android:id="@+id/regPasswordConfir"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textVisiblePassword"
-        android:hint="Repite Password"/>
+
     <EditText
         android:id="@+id/regEmail"
         android:layout_width="match_parent"
