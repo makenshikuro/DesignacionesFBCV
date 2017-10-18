@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ListViewAdapter extends ArrayAdapter<Partido> {
@@ -16,6 +18,8 @@ public class ListViewAdapter extends ArrayAdapter<Partido> {
 
     ArrayList<Partido> alp;
     LayoutInflater inflater;
+    DateFormat dfDia = new SimpleDateFormat("dd MMM yyyy");
+    DateFormat dfHora = new SimpleDateFormat("HH:mm");
 
 
     public ListViewAdapter(Context context,int textViewResourceId, ArrayList<Partido> al) {
@@ -50,8 +54,10 @@ public class ListViewAdapter extends ArrayAdapter<Partido> {
         txtEstado = (TextView) v.findViewById(R.id.txtEstado);
 
 
-        txtFecha.setText(alp.get(position).getFecha().toString());
-        txtHora.setText(alp.get(position).getFecha().toString());
+        txtFecha.setText(dfDia.format(alp.get(position).getFecha()));
+        txtHora.setText(dfHora.format(alp.get(position).getFecha()));
+        //txtFecha.setText("12/12/2000");
+        //txtHora.setText("12:00");
         txtEncuentro.setText(alp.get(position).getEncuentro());
         txtCategoria.setText(alp.get(position).getCategoria());
         txtEstado.setText(alp.get(position).getEstado());

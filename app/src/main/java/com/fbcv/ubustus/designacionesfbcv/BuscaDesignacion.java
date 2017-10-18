@@ -1,13 +1,16 @@
 package com.fbcv.ubustus.designacionesfbcv;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -28,24 +31,22 @@ public class BuscaDesignacion extends AppCompatActivity {
 
     private Button getBtn;
     private ArrayAdapter<String> adaptador;
-    private TextView result, lastUpdate, num_partidos;
+    private TextView tvPrevisto, tvLastUpdate, tvNumPartidos;
     int npartidos;
     String lastupdate;
     ListView lv1;
     ArrayList<Partido> al = new ArrayList<Partido>();
     ListViewAdapter listAdapter;
 
-    ArrayList<String> listItems=new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busca_designacion);
-        result = (TextView) findViewById(R.id.result);
+        tvLastUpdate = (TextView) findViewById(R.id.txt_semanaX);
+        tvPrevisto = (TextView) findViewById(R.id.txt_previsto);
+        tvNumPartidos = (TextView) findViewById(R.id.txt_numPartidos);
 
-        /*adaptador=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
-        lv1=(ListView)findViewById(R.id.lista_semanal);
-        lv1.setAdapter(adaptador);*/
 
         lv1 =(ListView) findViewById(R.id.lista_semanal);
         listAdapter = new ListViewAdapter(this, R.layout.list_view_items, al);
@@ -57,9 +58,37 @@ public class BuscaDesignacion extends AppCompatActivity {
         getBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                al.clear();
+                listAdapter.notifyDataSetChanged();
                 new Title().execute();
             }
         });
+
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                // use position to find your values
+                // to go to ShowDetailsActivity, you have to use Intent
+                Intent detailScreen = new Intent(getApplicationContext(), DesignacionDetalle.class);
+                detailScreen.putExtra("position", position); // pass value if needed
+
+                startActivity(detailScreen);
+                Toast.makeText(getApplicationContext(), "presiono " + position, Toast.LENGTH_SHORT).show();
+                /*@Override
+                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                    Toast.makeText(getApplicationContext(), "presiono " + i, Toast.LENGTH_SHORT).show();
+                }*/
+            }
+        });
+
+        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), "presiono LARGO " + i, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
     }
 
     // Title AsyncTask
@@ -97,6 +126,11 @@ public class BuscaDesignacion extends AppCompatActivity {
 
                 Elements rows = doc.select("#designacionesDataGrid tr");
                 npartidos = rows.size()-2;
+
+                Elements update = doc.select("#fechaPubTextBox");
+                lastupdate = update.attr("value");
+
+
 
                 for (int i = 0; i < npartidos;i++){
 
@@ -205,10 +239,12 @@ public class BuscaDesignacion extends AppCompatActivity {
 
 
             listAdapter.notifyDataSetChanged();
-
-            result.setText("Hecho");
+            tvNumPartidos.setText("Partidos: "+npartidos);
+            tvLastUpdate.setText("Semana: "+lastupdate);
+            tvPrevisto.setText("Previsto: 4€");
         }
     }
+
 
 }
 

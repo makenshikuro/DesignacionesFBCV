@@ -25,6 +25,7 @@
         <activity android:name=".Estado" />
         <activity android:name=".Configuracion" />
         <activity android:name=".BuscaDesignacion" />
+        <activity android:name=".DesignacionDetalle"></activity>
     </application>
 
 </manifest>
