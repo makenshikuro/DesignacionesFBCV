@@ -1,9 +1,13 @@
 package com.fbcv.ubustus.designacionesfbcv;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,8 +34,9 @@ import java.util.regex.Pattern;
 public class BuscaDesignacion extends AppCompatActivity {
 
     private Button getBtn;
+    private Context ctx;
     private ArrayAdapter<String> adaptador;
-    private TextView tvPrevisto, tvLastUpdate, tvNumPartidos;
+    private TextView tvPrevisto, tvLastUpdate, tvNumPartidos, dCodigo, dCategoria,dEstado,dEncuentro,dDia;
     int npartidos;
     String lastupdate;
     ListView lv1;
@@ -42,10 +47,13 @@ public class BuscaDesignacion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = this;
         setContentView(R.layout.activity_busca_designacion);
         tvLastUpdate = (TextView) findViewById(R.id.txt_semanaX);
         tvPrevisto = (TextView) findViewById(R.id.txt_previsto);
         tvNumPartidos = (TextView) findViewById(R.id.txt_numPartidos);
+
+
 
 
         lv1 =(ListView) findViewById(R.id.lista_semanal);
@@ -60,14 +68,69 @@ public class BuscaDesignacion extends AppCompatActivity {
             public void onClick(View view) {
                 al.clear();
                 listAdapter.notifyDataSetChanged();
-                new Title().execute();
+                new Designacion().execute();
             }
         });
 
+
+
+
+
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapter, View view, final int position, long id) {
 
+
+                LayoutInflater inflater = LayoutInflater.from(BuscaDesignacion.this);
+                final View vistaDetalle = inflater.inflate(R.layout.dialog_info_detalle, null);
+
+                dCodigo = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_codigo);
+                dCategoria = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_categoria);
+                dEstado = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_estado);
+                dEncuentro = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_encuentro);
+                dDia = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_dia);
+
+
+
+
+                final AlertDialog dialog = new AlertDialog.Builder(ctx)
+                        .setMessage("Información")
+                        .setView(vistaDetalle)
+                        .setTitle("hola")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                dialog.dismiss();
+
+                            }
+                        }).create();
+
+
+                //
+                dCategoria.setText(al.get(position).getCategoria());
+                dCodigo.setText(al.get(position).getCodigo());
+                dEncuentro.setText(al.get(position).getEncuentro());
+                dEstado.setText(al.get(position).getEstado());
+                dDia.setText(al.get(position).getFecha().toString());
+
+                dialog.show();
+                Toast.makeText(getApplicationContext(), "presiono " + position, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView adapterView, View view, final int position, long l) {
                 Intent intent = new Intent(BuscaDesignacion.this, DesignacionDetalle.class);
                 intent.putExtra("hola",al);
                 Bundle b = new Bundle();
@@ -75,34 +138,21 @@ public class BuscaDesignacion extends AppCompatActivity {
 
                 intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
-                finish();
-                Toast.makeText(getApplicationContext(), "presiono " + position, Toast.LENGTH_SHORT).show();
 
-
-
-            }
-        });
-
-        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "presiono LARGO " + i, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "presiono LARGO " + position, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
 
     }
 
-    // Title AsyncTask
-    private class Title extends AsyncTask<Void, Void, Void> {
+    private class Designacion extends AsyncTask<Void, Void, Void> {
 
         String urlLogin = "https://intrafeb.feb.es/OficinaWebArbitro/";
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
-
-
 
                 Connection.Response resp = Jsoup.connect(urlLogin)
                         .method(Connection.Method.GET)
@@ -131,8 +181,6 @@ public class BuscaDesignacion extends AppCompatActivity {
 
                 Elements update = doc.select("#fechaPubTextBox");
                 lastupdate = update.attr("value");
-
-
 
                 for (int i = 0; i < npartidos;i++){
 

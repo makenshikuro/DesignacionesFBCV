@@ -26,8 +26,8 @@ public class DesignacionDetalle extends AppCompatActivity {
 
 
         myList.get(value).getCodigo();
-        /*Intent i = getIntent();
-        int position = i.getIntExtra("position", 0);*/
+
+
 
         tvTEXT.setText("TEXT "+myList.get(value).getCodigo());
 
