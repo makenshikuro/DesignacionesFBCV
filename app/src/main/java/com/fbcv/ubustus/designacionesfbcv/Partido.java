@@ -1,12 +1,13 @@
 package com.fbcv.ubustus.designacionesfbcv;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Ubustus on 13/10/2017.
  */
 
-public class Partido {
+public class Partido implements Serializable{
 
     private String codigo;
     private String encuentro;

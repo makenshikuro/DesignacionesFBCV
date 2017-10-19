@@ -67,17 +67,19 @@ public class BuscaDesignacion extends AppCompatActivity {
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                // use position to find your values
-                // to go to ShowDetailsActivity, you have to use Intent
-                Intent detailScreen = new Intent(getApplicationContext(), DesignacionDetalle.class);
-                detailScreen.putExtra("position", position); // pass value if needed
 
-                startActivity(detailScreen);
+                Intent intent = new Intent(BuscaDesignacion.this, DesignacionDetalle.class);
+                intent.putExtra("hola",al);
+                Bundle b = new Bundle();
+                b.putInt("key", position); //Your id
+
+                intent.putExtras(b); //Put your id to your next Intent
+                startActivity(intent);
+                finish();
                 Toast.makeText(getApplicationContext(), "presiono " + position, Toast.LENGTH_SHORT).show();
-                /*@Override
-                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                    Toast.makeText(getApplicationContext(), "presiono " + i, Toast.LENGTH_SHORT).show();
-                }*/
+
+
+
             }
         });
 
