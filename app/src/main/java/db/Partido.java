@@ -1,11 +1,9 @@
-package com.fbcv.ubustus.designacionesfbcv;
+package db;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Ubustus on 13/10/2017.
- */
+
 
 public class Partido implements Serializable{
 
@@ -15,6 +13,9 @@ public class Partido implements Serializable{
     private String categoria;
     private String localidad;
     private float cuota;
+    private float distancia;
+    private float desplazamiento;
+    private float total;
     private String estado;
     private boolean aceptado;
 
@@ -91,5 +92,29 @@ public class Partido implements Serializable{
 
     public void setAceptado(boolean aceptado) {
         this.aceptado = aceptado;
+    }
+
+    public float getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(float distancia) {
+        this.distancia = distancia;
+    }
+
+    public float getDesplazamiento() {
+        return desplazamiento;
+    }
+
+    public void setDesplazamiento(float desplazamiento) {
+        this.desplazamiento = desplazamiento;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 }

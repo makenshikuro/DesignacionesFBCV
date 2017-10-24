@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import db.Partido;
+
 public class BuscaDesignacion extends AppCompatActivity {
 
     private Button getBtn;

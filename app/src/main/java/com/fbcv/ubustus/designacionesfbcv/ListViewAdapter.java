@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import db.Partido;
+
 public class ListViewAdapter extends ArrayAdapter<Partido> {
 
     // Declare Variables
