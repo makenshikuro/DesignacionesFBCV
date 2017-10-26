@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import db.Partido;
+import persistence.entity.Partido;
 
 public class DesignacionDetalle extends AppCompatActivity {
     TextView tvTEXT;

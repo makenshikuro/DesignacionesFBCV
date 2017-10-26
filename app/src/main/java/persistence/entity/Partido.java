@@ -1,22 +1,38 @@
-package db;
+package persistence.entity;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;
 
 
-
+@Entity
 public class Partido implements Serializable{
-
+    @PrimaryKey
+    @NonNull
     private String codigo;
+    @ColumnInfo(name = "encuentro")
     private String encuentro;
+    @ColumnInfo(name = "fecha")
     private Date fecha;
+    @ColumnInfo(name = "categoria")
     private String categoria;
+    @ColumnInfo(name = "localidad")
     private String localidad;
+    @ColumnInfo(name = "cuota")
     private float cuota;
+    @ColumnInfo(name = "distancia")
     private float distancia;
+    @ColumnInfo(name = "desplazamiento")
     private float desplazamiento;
+    @ColumnInfo(name = "total")
     private float total;
+    @ColumnInfo(name = "estado")
     private String estado;
+    @ColumnInfo(name = "aceptado")
     private boolean aceptado;
 
     public Partido(String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String estado, boolean aceptado) {

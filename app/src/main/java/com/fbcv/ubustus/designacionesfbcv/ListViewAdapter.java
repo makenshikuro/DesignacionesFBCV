@@ -12,7 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import db.Partido;
+import persistence.entity.Partido;
 
 public class ListViewAdapter extends ArrayAdapter<Partido> {
 

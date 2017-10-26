@@ -31,9 +31,12 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import db.Partido;
+import persistence.database.AppDatabase;
+import persistence.entity.Partido;
 
 public class BuscaDesignacion extends AppCompatActivity {
+
+    private AppDatabase db;
 
     private Button getBtn;
     private Context ctx;
@@ -51,6 +54,7 @@ public class BuscaDesignacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ctx = this;
         setContentView(R.layout.activity_busca_designacion);
+
         tvLastUpdate = (TextView) findViewById(R.id.txt_semanaX);
         tvPrevisto = (TextView) findViewById(R.id.txt_previsto);
         tvNumPartidos = (TextView) findViewById(R.id.txt_numPartidos);
@@ -63,14 +67,19 @@ public class BuscaDesignacion extends AppCompatActivity {
         lv1.setAdapter(listAdapter);
 
 
+        listAdapter.notifyDataSetChanged();
+        new Designacion().execute();
+
+
 
         getBtn = (Button) findViewById(R.id.getBtn);
         getBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                al.clear();
-                listAdapter.notifyDataSetChanged();
-                new Designacion().execute();
+                db = AppDatabase.getAppDatabase(ctx);
+                //db.partidoDAO().insertAll(al);
+                db.partidoDAO().insertPartido(al.get(0));
+
             }
         });
 
@@ -296,6 +305,10 @@ public class BuscaDesignacion extends AppCompatActivity {
             tvPrevisto.setText("Previsto: 4€");
         }
     }
+
+
+
+
 
 
 }
