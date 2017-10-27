@@ -69,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="Get Designacion"
+        android:text="Guardar"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"

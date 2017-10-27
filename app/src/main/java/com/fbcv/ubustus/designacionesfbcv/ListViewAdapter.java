@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 import persistence.entity.Partido;
 
@@ -18,13 +18,13 @@ public class ListViewAdapter extends ArrayAdapter<Partido> {
 
     // Declare Variables
 
-    ArrayList<Partido> alp;
+    List<Partido> alp;
     LayoutInflater inflater;
     DateFormat dfDia = new SimpleDateFormat("dd MMM yyyy");
     DateFormat dfHora = new SimpleDateFormat("HH:mm");
 
 
-    public ListViewAdapter(Context context,int textViewResourceId, ArrayList<Partido> al) {
+    public ListViewAdapter(Context context,int textViewResourceId, List<Partido> al) {
         super(context,textViewResourceId, al);
         this.alp = al;
 

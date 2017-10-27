@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,10 +39,11 @@ public class BuscaDesignacion extends AppCompatActivity {
 
     private Button getBtn;
     private Context ctx;
-    private ArrayAdapter<String> adaptador;
+
     private TextView tvPrevisto, tvLastUpdate, tvNumPartidos, dCodigo, dCategoria,dEstado,dEncuentro,dDia;
     int npartidos;
-    String lastupdate;
+    String lastupdate ,distancia="1", tiempo="1";
+    float total = 0, desplazamiento=0;
     ListView lv1;
     ArrayList<Partido> al = new ArrayList<Partido>();
     ListViewAdapter listAdapter;
@@ -77,8 +77,9 @@ public class BuscaDesignacion extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 db = AppDatabase.getAppDatabase(ctx);
-                //db.partidoDAO().insertAll(al);
-                db.partidoDAO().insertPartido(al.get(0));
+
+                db.partidoDAO().insertAll(al);
+                //db.partidoDAO().insertPartido(al.get(0));
 
             }
         });
@@ -130,7 +131,7 @@ public class BuscaDesignacion extends AppCompatActivity {
                 dCategoria.setText(al.get(position).getCategoria());
                 dCodigo.setText(al.get(position).getCodigo());
                 dEncuentro.setText(al.get(position).getEncuentro());
-                dEstado.setText(al.get(position).getEstado());
+                //dEstado.setText(al.get(position).getEstado());
                 dDia.setText(al.get(position).getFecha().toString());
 
                 dialog.show();
@@ -282,8 +283,19 @@ public class BuscaDesignacion extends AppCompatActivity {
 				        /*System.out.println("cuotaARB: "+ cuota);*/
                     } catch (Exception e) {e.printStackTrace();}
                     //puesto por defecto (hay que recoger este valor con jsoup)
-                    boolean aceptado = false;
-                    Partido p = new Partido(codigo, encuentro, date, cat, localidad, cuota, estado, aceptado);
+                    /*Log.d("TAG","C"+codigo);
+                    Log.d("TAG","E"+encuentro);
+                    Log.d("TAG","D"+date.toString());
+                    Log.d("TAG","C"+cat);
+                    Log.d("TAG","L"+localidad);
+                    Log.d("TAG","C"+cuota);
+                    Log.d("TAG","C"+distancia);
+                    Log.d("TAG","C"+tiempo);
+                    Log.d("TAG","C"+desplazamiento);
+                    Log.d("TAG","C"+total);
+                    Log.d("TAG","C"+estado);*/
+
+                    Partido p = new Partido(codigo, encuentro, date, cat, localidad, cuota, distancia, tiempo, desplazamiento, total, estado );
                     al.add(p);
 
                 }

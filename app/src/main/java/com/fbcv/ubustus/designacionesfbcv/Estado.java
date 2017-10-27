@@ -24,6 +24,10 @@ public class Estado extends AppCompatActivity {
 
         List<Partido> categorias =  db.partidoDAO().getAll();
         Log.i("TAG Deuda", "Deuda: "+categorias.size());
+        for (Partido p : categorias){
+            Log.i("TAG Codigo", "Codigo: "+p.getCodigo());
+        }
+
 
 
         //Log.i("TAG Deuda", "Deuda: "+categorias.size());

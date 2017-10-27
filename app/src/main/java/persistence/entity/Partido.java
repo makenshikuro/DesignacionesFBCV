@@ -25,32 +25,36 @@ public class Partido implements Serializable{
     @ColumnInfo(name = "cuota")
     private float cuota;
     @ColumnInfo(name = "distancia")
-    private float distancia;
+    private String distancia;
+    @ColumnInfo(name = "tiempo")
+    private String tiempo;
     @ColumnInfo(name = "desplazamiento")
     private float desplazamiento;
     @ColumnInfo(name = "total")
     private float total;
     @ColumnInfo(name = "estado")
     private String estado;
-    @ColumnInfo(name = "aceptado")
-    private boolean aceptado;
 
-    public Partido(String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String estado, boolean aceptado) {
+    public Partido(@NonNull String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String distancia, String tiempo, float desplazamiento, float total, String estado) {
         this.codigo = codigo;
         this.encuentro = encuentro;
         this.fecha = fecha;
         this.categoria = categoria;
         this.localidad = localidad;
         this.cuota = cuota;
+        this.distancia = distancia;
+        this.tiempo = tiempo;
+        this.desplazamiento = desplazamiento;
+        this.total = total;
         this.estado = estado;
-        this.aceptado = aceptado;
     }
 
+    @NonNull
     public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(@NonNull String codigo) {
         this.codigo = codigo;
     }
 
@@ -94,29 +98,7 @@ public class Partido implements Serializable{
         this.cuota = cuota;
     }
 
-    public String getEstado() {
-        return estado;
-    }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public boolean isAceptado() {
-        return aceptado;
-    }
-
-    public void setAceptado(boolean aceptado) {
-        this.aceptado = aceptado;
-    }
-
-    public float getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(float distancia) {
-        this.distancia = distancia;
-    }
 
     public float getDesplazamiento() {
         return desplazamiento;
@@ -132,5 +114,29 @@ public class Partido implements Serializable{
 
     public void setTotal(float total) {
         this.total = total;
+    }
+
+    public String getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(String distancia) {
+        this.distancia = distancia;
+    }
+
+    public String getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

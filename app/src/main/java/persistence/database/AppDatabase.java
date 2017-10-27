@@ -13,7 +13,7 @@ import persistence.entity.Partido;
 import persistence.utils.Converters;
 
 
-@Database(entities = {Categoria.class, Partido.class}, version = 2)
+@Database(entities = {Categoria.class, Partido.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -28,6 +28,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             // allow queries on the main thread.
                             // Don't do this on a real app! See PersistenceBasicSample for an example.
                             .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
+
                             .build();
         }
 
