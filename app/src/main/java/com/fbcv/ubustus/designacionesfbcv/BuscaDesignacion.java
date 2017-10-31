@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,13 @@ public class BuscaDesignacion extends AppCompatActivity {
     ListView lv1;
     ArrayList<Partido> al = new ArrayList<Partido>();
     ListViewAdapter listAdapter;
+
+    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy  HH:mm");
+    DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    DateFormat formatoSQL = new SimpleDateFormat("yyyy-MM-dd");
+    Date datePartido = new Date();
+    Date dateLastWeek = new Date();
+
 
 
     @Override
@@ -76,9 +85,51 @@ public class BuscaDesignacion extends AppCompatActivity {
         getBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = AppDatabase.getAppDatabase(ctx);
 
-                db.partidoDAO().insertAll(al);
+                final AlertDialog dialog = new AlertDialog.Builder(ctx)
+                        .setMessage("¿Desea Guardar la Designación?")
+                        .setTitle("Confirmación")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //Log.d("TAG","E"+formatoSQL.format(date));
+                                db = AppDatabase.getAppDatabase(ctx);
+
+                                List<Partido> partidosSemana = db.partidoDAO().getPartidosSemana(dateLastWeek);
+                                Log.d("TAG", "Date: "+dateLastWeek);
+                                Log.d("TAG", "Partidos: "+partidosSemana.size());
+
+                                db.partidoDAO().deleteAll(partidosSemana);
+
+                                //db.partidoDAO().insertAll(al);
+
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Guardado ", Toast.LENGTH_SHORT).show();
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Cancelado ", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).create();
+
+                dialog.show();
+
+
+
+
                 //db.partidoDAO().insertPartido(al.get(0));
 
             }
@@ -193,6 +244,11 @@ public class BuscaDesignacion extends AppCompatActivity {
 
                 Elements update = doc.select("#fechaPubTextBox");
                 lastupdate = update.attr("value");
+                try {
+                    dateLastWeek = formatoSQL.parse(lastupdate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 for (int i = 0; i < npartidos;i++){
 
@@ -218,11 +274,10 @@ public class BuscaDesignacion extends AppCompatActivity {
                     Matcher Mcod = Pattern.compile("\\(([^)]+)\\)").matcher(codigo);
                     while(Mcod.find()) {codigo = Mcod.group(1);}
 
-                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy  HH:mm");
-                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-                    Date date = new Date();
-                    try {date = formatter.parse(fecha);} catch (ParseException e) {e.printStackTrace();}
+
+
+                    try {datePartido = formatter.parse(fecha);} catch (ParseException e) {e.printStackTrace();}
 
                     String cat="";
 
@@ -295,7 +350,7 @@ public class BuscaDesignacion extends AppCompatActivity {
                     Log.d("TAG","C"+total);
                     Log.d("TAG","C"+estado);*/
 
-                    Partido p = new Partido(codigo, encuentro, date, cat, localidad, cuota, distancia, tiempo, desplazamiento, total, estado );
+                    Partido p = new Partido(codigo, encuentro, datePartido, cat, localidad, cuota, distancia, tiempo, desplazamiento, total, estado );
                     al.add(p);
 
                 }
