@@ -68,9 +68,6 @@ public class BuscaDesignacion extends AppCompatActivity {
         tvPrevisto = (TextView) findViewById(R.id.txt_previsto);
         tvNumPartidos = (TextView) findViewById(R.id.txt_numPartidos);
 
-
-
-
         lv1 =(ListView) findViewById(R.id.lista_semanal);
         listAdapter = new ListViewAdapter(this, R.layout.list_view_items, al);
         lv1.setAdapter(listAdapter);
@@ -98,12 +95,12 @@ public class BuscaDesignacion extends AppCompatActivity {
                                 db = AppDatabase.getAppDatabase(ctx);
 
                                 List<Partido> partidosSemana = db.partidoDAO().getPartidosSemana(dateLastWeek);
-                                Log.d("TAG", "Date: "+dateLastWeek);
-                                Log.d("TAG", "Partidos: "+partidosSemana.size());
+                                //Log.d("TAG", "Date: "+dateLastWeek);
+                                //Log.d("TAG", "Partidos: "+partidosSemana.size());
 
                                 db.partidoDAO().deleteAll(partidosSemana);
 
-                                //db.partidoDAO().insertAll(al);
+                                db.partidoDAO().insertAll(al);
 
                                 dialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Guardado ", Toast.LENGTH_SHORT).show();

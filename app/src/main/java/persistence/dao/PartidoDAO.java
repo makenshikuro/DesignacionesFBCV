@@ -18,7 +18,7 @@ public interface PartidoDAO {
     @Query("SELECT * FROM partido")
     List<Partido> getAll();
 
-    @Query("SELECT * FROM partido WHERE fecha<:date")
+    @Query("SELECT * FROM partido WHERE fecha>=:date")
     List<Partido> getPartidosSemana(Date date);
 
     @Insert
