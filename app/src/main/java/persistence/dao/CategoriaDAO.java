@@ -28,4 +28,5 @@ public interface CategoriaDAO {
 
     @Query("DELETE FROM categoria")
     void deleteAll();
+
 }

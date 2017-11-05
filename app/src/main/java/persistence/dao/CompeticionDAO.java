@@ -17,6 +17,11 @@ public interface CompeticionDAO {
     List<Competicion> getAll();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCompeticion(Competicion competicion);
+    @Insert
+    void insertAll(List<Competicion> competicion);
     @Delete
     void delete(Competicion competicion);
+
+    @Query("DELETE FROM competicion")
+    void deleteAll();
 }
