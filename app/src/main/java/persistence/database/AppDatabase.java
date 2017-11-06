@@ -15,7 +15,7 @@ import persistence.entity.Partido;
 import persistence.utils.Converters;
 
 
-@Database(entities = {Categoria.class, Partido.class, Competicion.class}, version = 2)
+@Database(entities = {Categoria.class, Partido.class, Competicion.class}, version = 4)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -32,7 +32,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             // Don't do this on a real app! See PersistenceBasicSample for an example.
                             .allowMainThreadQueries()
                             .fallbackToDestructiveMigration()
-
                             .build();
         }
 

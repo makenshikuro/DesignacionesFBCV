@@ -25,9 +25,9 @@ public class Partido implements Serializable{
     @ColumnInfo(name = "cuota")
     private float cuota;
     @ColumnInfo(name = "distancia")
-    private String distancia;
+    private int distancia;
     @ColumnInfo(name = "tiempo")
-    private String tiempo;
+    private int tiempo;
     @ColumnInfo(name = "desplazamiento")
     private float desplazamiento;
     @ColumnInfo(name = "total")
@@ -35,7 +35,7 @@ public class Partido implements Serializable{
     @ColumnInfo(name = "estado")
     private String estado;
 
-    public Partido(@NonNull String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, String distancia, String tiempo, float desplazamiento, float total, String estado) {
+    public Partido(@NonNull String codigo, String encuentro, Date fecha, String categoria, String localidad, float cuota, int distancia, int tiempo, float desplazamiento, float total, String estado) {
         this.codigo = codigo;
         this.encuentro = encuentro;
         this.fecha = fecha;
@@ -98,8 +98,6 @@ public class Partido implements Serializable{
         this.cuota = cuota;
     }
 
-
-
     public float getDesplazamiento() {
         return desplazamiento;
     }
@@ -116,19 +114,19 @@ public class Partido implements Serializable{
         this.total = total;
     }
 
-    public String getDistancia() {
+    public int getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(String distancia) {
+    public void setDistancia(int distancia) {
         this.distancia = distancia;
     }
 
-    public String getTiempo() {
+    public int getTiempo() {
         return tiempo;
     }
 
-    public void setTiempo(String tiempo) {
+    public void setTiempo(int tiempo) {
         this.tiempo = tiempo;
     }
 

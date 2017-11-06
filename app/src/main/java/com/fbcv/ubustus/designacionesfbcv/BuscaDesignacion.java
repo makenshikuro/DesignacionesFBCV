@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -24,7 +25,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,11 +49,13 @@ public class BuscaDesignacion extends AppCompatActivity {
 
     private Button getBtn;
     private Context ctx;
+    public static float eurosxkm = 0.16f;
 
     private TextView tvPrevisto, tvLastUpdate, tvNumPartidos, dCodigo, dCategoria,dEstado,dEncuentro,dDia;
     int npartidos;
-    String lastupdate ,distancia="1", tiempo="1";
+    String lastupdate ;
     String dni, passWeb, rol, origen;
+    int tiempo = 0, distancia = 0;
     float total = 0, desplazamiento=0;
     ListView lv1;
     ArrayList<Partido> al = new ArrayList<Partido>();
@@ -69,12 +75,12 @@ public class BuscaDesignacion extends AppCompatActivity {
         ctx = this;
         setContentView(R.layout.activity_busca_designacion);
 
-        tvLastUpdate = (TextView) findViewById(R.id.txt_semanaX);
-        tvPrevisto = (TextView) findViewById(R.id.txt_previsto);
-        tvNumPartidos = (TextView) findViewById(R.id.txt_numPartidos);
-        getBtn = (Button) findViewById(R.id.getBtn);
+        tvLastUpdate = findViewById(R.id.txt_semanaX);
+        tvPrevisto = findViewById(R.id.txt_previsto);
+        tvNumPartidos = findViewById(R.id.txt_numPartidos);
+        getBtn = findViewById(R.id.getBtn);
 
-        lv1 =(ListView) findViewById(R.id.lista_semanal);
+        lv1 = findViewById(R.id.lista_semanal);
         listAdapter = new ListViewAdapter(this, R.layout.list_view_items, al);
         lv1.setAdapter(listAdapter);
 
@@ -144,11 +150,11 @@ public class BuscaDesignacion extends AppCompatActivity {
                 LayoutInflater inflater = LayoutInflater.from(BuscaDesignacion.this);
                 final View vistaDetalle = inflater.inflate(R.layout.dialog_info_detalle, null);
 
-                dCodigo = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_codigo);
-                dCategoria = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_categoria);
-                dEstado = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_estado);
-                dEncuentro = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_encuentro);
-                dDia = (TextView) vistaDetalle.findViewById(R.id.txt_detalle_dia);
+                dCodigo = vistaDetalle.findViewById(R.id.txt_detalle_codigo);
+                dCategoria = vistaDetalle.findViewById(R.id.txt_detalle_categoria);
+                dEstado = vistaDetalle.findViewById(R.id.txt_detalle_estado);
+                dEncuentro = vistaDetalle.findViewById(R.id.txt_detalle_encuentro);
+                dDia = vistaDetalle.findViewById(R.id.txt_detalle_dia);
 
                 final AlertDialog dialog = new AlertDialog.Builder(ctx)
                         .setMessage("Información")
@@ -232,8 +238,10 @@ public class BuscaDesignacion extends AppCompatActivity {
 
                 Elements update = doc.select("#fechaPubTextBox");
                 lastupdate = update.attr("value");
+                //lastupdate = lastupdate.replaceAll("\\.","-");
+                //Log.d("Fecha","Date: "+lastupdate);
                 try {
-                    dateLastWeek = formatoSQL.parse(lastupdate);
+                    dateLastWeek = format.parse(lastupdate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -244,15 +252,15 @@ public class BuscaDesignacion extends AppCompatActivity {
                 for (int i = 0; i < npartidos;i++){
 
                     Element fechaLabel = doc.getElementById("designacionesDataGrid_fechaLabel_"+i);
-                    String fecha = fechaLabel.html().trim().replaceAll("<b>Día:</b>", "").replaceAll("<br><b>Hora:</b>", "").replaceAll("\\(([^)]+)\\)", "");
+                    String fecha = fechaLabel.html().replaceAll("<b>Día:</b>", "").replaceAll("<br><b>Hora:</b>", "").replaceAll("\\(([^)]+)\\)", "");
                     Element partidoLabel = doc.getElementById("designacionesDataGrid_partidoLabel_"+i);
-                    String encuentro = partidoLabel.html().trim();
+                    String encuentro = partidoLabel.html().replace(" ","");
                     String codigo;
                     String categoria;
                     Element localidadLabel = doc.getElementById("designacionesDataGrid_campoLabel_"+i);
-                    String localidad = localidadLabel.html().trim();
+                    String localidad = localidadLabel.html().replace(" ","");
                     Element estadoLabel = doc.getElementById("designacionesDataGrid_aceptadaLabel_"+i);
-                    String estado = estadoLabel.html().trim();
+                    String estado = estadoLabel.html().replace(" ","");
                     String[] lines = encuentro.split("<b>");
                     encuentro = lines[1].replaceAll("</b><br>", "").replaceAll("\\(([^)]+)\\)", "");
                     //System.out.println("encuentro"+i+" : "+ encuentro);
@@ -290,22 +298,22 @@ public class BuscaDesignacion extends AppCompatActivity {
                         cat = cat + "Masc";
                     }else if (categoria.contains("Fem")){
                         cat = cat + "Fem";
-                        if (categoria.contains("Nivel 2")) {
+                        if (categoria.contains("Nivel 2")||categoria.contains("Nivel2")) {
                             cat = cat + "2";
-                        }else if(categoria.contains("Nivel 1")){
+                        }else if(categoria.contains("Nivel 1")||categoria.contains("Nivel1")){
                             cat = cat + "1";
                         }
                     }
 
                     if (categoria.contains("IR")){
                         cat = cat + "IR";
-                        if (categoria.contains("Nivel 3")){
+                        if (categoria.contains("Nivel 3")||categoria.contains("Nivel3")){
                             cat = cat + "3";
                         }
-                        else if (categoria.contains("Nivel 2")){
+                        else if (categoria.contains("Nivel 2")||categoria.contains("Nivel2")){
                             cat = cat + "2";
                         }
-                        else if (categoria.contains("Nivel 1")){
+                        else if (categoria.contains("Nivel 1")||categoria.contains("Nivel1")){
                             cat = cat + "1";
                         }
                     }else if (categoria.contains("Ayto")||categoria.contains("Cons")){
@@ -350,53 +358,51 @@ public class BuscaDesignacion extends AppCompatActivity {
                             categoria = c.getNombre();
                         }
                     }
-                    total = total + cuota;
-
-                    Gson gson = new Gson();
-                    JSONObject json = new JSONObject(readUrl("..."));
 
 
-                    String urlGoogleAPI = "https://maps.googleapis.com/maps/api/distancematrix/xml?language=es&origins="+origen+"&destinations="+localidad+"&avoid=tolls";
+                    String urlGoogleAPI = "https://maps.googleapis.com/maps/api/distancematrix/json?language=es&origins="+origen+"&destinations="+localidad+"&avoid=tolls";
+
+                    try{
+                        JSONObject json = new JSONObject(readUrl(urlGoogleAPI));
+                        //String title = (String) json.get("rows");
+                        JSONArray matrixArray = json.getJSONArray("rows");
+                        if (json != null && json.get("status").equals("OK")) {
+                                for (int indice = 0; indice < matrixArray.length(); indice++) {
+                                    JSONArray elementArray = matrixArray.getJSONObject(indice).getJSONArray("elements");
+                                    for (int indice2 = 0; indice2 < elementArray.length(); indice2++) {
+                                        JSONObject distanceObj = elementArray.getJSONObject(indice2).getJSONObject("distance");
+                                        String distance = distanceObj.getString("value");
+                                        distancia = Integer.valueOf(distance)/1000;
+                                        JSONObject durationObj = elementArray.getJSONObject(indice2).getJSONObject("duration");
+                                        String duration = durationObj.getString("value");
+                                        tiempo = Integer.valueOf(duration)/60;
+                                        Log.d("JSON", ""+distancia);
+                                        Log.d("JSON2", ""+tiempo);
+                                    }
+                                }
+                        }
+                    }catch (Exception e){e.printStackTrace();}
+
+                    desplazamiento = eurosxkm * distancia;
+                    if (desplazamiento * 2 < 4.0f){
+                        desplazamiento = 4.0f;
+                    }
 
 
-                    Connection.Response response = Jsoup.connect(urlLogin)
-                            .method(Connection.Method.GET)
-                            .execute();
-
-                    Document distanceMatrix = resp.parse();
-
-
-
-
+                    total = total + cuota + desplazamiento;
 
                     Log.d("CATEGOR","Cate: "+cat);
                     Log.d("CUOTA","Cuota: "+cuota);
+                    Log.d("DES","Desp: "+desplazamiento);
 
 
-
-
-
-                    try {
-                        //cuota = AccesoDatos.getCuotaCategoria(ds.getConnection(), cat, user.getRol());
-				        /*System.out.println("cuotaARB: "+ cuota);*/
-                    } catch (Exception e) {e.printStackTrace();}
                     //puesto por defecto (hay que recoger este valor con jsoup)
-                    /*Log.d("TAG","C"+codigo);
-                    Log.d("TAG","E"+encuentro);
-                    Log.d("TAG","D"+date.toString());*/
-                    Log.d("CATEGOR","Cate: "+cat);
-                   /* Log.d("TAG","L"+localidad);
-                    Log.d("TAG","C"+cuota);
-                    Log.d("TAG","C"+distancia);
-                    Log.d("TAG","C"+tiempo);
-                    Log.d("TAG","C"+desplazamiento);
-                    Log.d("TAG","C"+total);
-                    Log.d("TAG","C"+estado);*/
 
                     Partido p = new Partido(codigo, encuentro, datePartido, categoria, localidad, cuota, distancia, tiempo, desplazamiento, total, estado );
                     al.add(p);
 
                 }
+                Log.d("TOTAL","Total: "+total);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -407,12 +413,29 @@ public class BuscaDesignacion extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-
             listAdapter.notifyDataSetChanged();
             tvNumPartidos.setText("Partidos: "+npartidos);
             tvLastUpdate.setText("Semana: "+lastupdate);
             tvPrevisto.setText("Previsto: "+total+"€");
+        }
+    }
+
+
+    private static String readUrl(String urlString) throws Exception {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urlString);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuffer buffer = new StringBuffer();
+            int read;
+            char[] chars = new char[1024];
+            while ((read = reader.read(chars)) != -1)
+                buffer.append(chars, 0, read);
+
+            return buffer.toString();
+        } finally {
+            if (reader != null)
+                reader.close();
         }
     }
 
